@@ -1,0 +1,143 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cartsssss.css">
+    <link rel="stylesheet" href="fonteCss.min.js">
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <a class="logo" style="color: gold;" href="/index.html">Rolex</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="all pro.html">Product</a></li>
+                <li><a href="men.html">Men</a></li>
+                <li><a href="women.html">Women</a></li>
+            </ul>
+         
+        </nav>
+    </div>
+
+    <div class="Cart-Container" id="Cart-Container1">
+
+        <div class="Header">
+            <h3 class="Heading">Shopping Cart</h3>
+        </div>
+        <ul id="cart-items" style="color: white;" >
+            <i><p>Name: ${item.name}</p>
+            <p>Price: ${item.price}$</p></i>
+            
+        </ul>
+        <h1 id="total-price" style="color: white; margin-left: 20px;"></h1>
+        <h1 style="color:red;margin-left: 30px;">Checkout</h1>
+       
+        
+        
+
+
+    </div>
+    <script src="fonteCss.min.js"></script>
+    <script src="pro.js"></script>
+    
+    <script>
+        window.onload = function () {
+            var cart = JSON.parse(localStorage.getItem("cart"));
+            if (cart) {
+                var cartItems = document.getElementById("cart-items");
+                cartItems.innerHTML = '';
+                var totalPrice = 0;
+                for (var i = 0; i < cart.length; i++) {
+                    var item = cart[i];
+                    var listItem = document.createElement("li");
+                    listItem.innerHTML = `
+                            <p>Name: ${item.name}</p>
+                            <p>Price: ${item.price}$</p>
+                        `;
+                    cartItems.append(listItem);
+                    totalPrice += item.price;
+                }
+                var totalPriceElement = document.getElementById("total-price");
+                totalPriceElement.innerHTML = `Total Price: ${totalPrice}$`;
+                // إضافة الأزرار إلى الصفحة
+                var totalPriceElement = document.getElementById("total-price");
+                if (totalPriceElement) {
+                    var paypalButton = document.createElement("button");
+                    paypalButton.textContent = "Pay with PayPal";
+                    paypalButton.onclick = function () {
+                        // إرسال الطلب إلى PayPal
+                        var paypalUrl = "https://www.paypal.com/eg/home";
+                        var paypalData = {
+                            "cmd": "_xclick",
+                            "business": "your_paypal_email",
+                            "item_name": "Total Price",
+                            "amount": totalPrice,
+                            "currency_code": "USD"
+                        };
+                        var paypalForm = document.createElement("form");
+                        paypalForm.action = paypalUrl;
+                        paypalForm.method = "post";
+                        for (var key in paypalData) {
+                            var input = document.createElement("input");
+                            input.type = "hidden";
+                            input.name = key;
+                            input.value = paypalData[key];
+                            paypalForm.appendChild(input);
+                        }
+                        document.body.appendChild(paypalForm);
+                        paypalForm.submit();
+                    };
+                    totalPriceElement.parentNode.appendChild(paypalButton);
+                    paypalButton.style.color="blue"
+                    paypalButton.style.height=80
+                    paypalButton.style.width=80
+                    paypalButton.style.marginLeft=50
+                    paypalButton.style.borderRadius= "80px"
+                    paypalButton.style.transform = "translateY(-10px)"
+                    paypalButton.style.cursor="pointer"
+
+                    var vodafoneCashButton = document.createElement("button");
+                    vodafoneCashButton.textContent = "Pay with Vodafone Cash";
+                    vodafoneCashButton.onclick = function () {
+                        // إرسال الطلب إلى Vodafone Cash
+                        var vodafoneCashUrl = "https://www.vodafone.com.eg/cash";
+                        var vodafoneCashData = {
+                            "amount": totalPrice,
+                            "merchant_id": "your_merchant_id",
+                            "transaction_id": "your_transaction_id"
+                        };
+                        var vodafoneCashForm = document.createElement("form");
+                        vodafoneCashForm.action = vodafoneCashUrl;
+                        vodafoneCashForm.method = "post";
+                        for (var key in vodafoneCashData) {
+                            var input = document.createElement("input");
+                            input.type = "hidden";
+                            input.name = key;
+                            input.value = vodafoneCashData[key];
+                            vodafoneCashForm.appendChild(input);
+                        }
+                        document.body.appendChild(vodafoneCashForm);
+                        vodafoneCashForm.submit();
+                    };
+                    totalPriceElement.parentNode.appendChild(vodafoneCashButton);
+
+                    vodafoneCashButton.style.color="red"
+                    vodafoneCashButton.style.height=80
+                    vodafoneCashButton.style.width=80
+                    vodafoneCashButton.style.marginLeft=50
+                    vodafoneCashButton.style.borderRadius= "80px"
+                    vodafoneCashButton.style.cursor="pointer"
+                    
+                    
+                } else {
+                    console.log("totalPriceElement is null");
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
